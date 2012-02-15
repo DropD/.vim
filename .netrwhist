@@ -1,0 +1,11 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =9
+let g:netrw_dirhist_1='scp://web32@sr47.firestorm.ch/'
+let g:netrw_dirhist_2='ftp://web32@sr47.firestorm.ch/'
+let g:netrw_dirhist_3='ftp://web32@sr47.firestorm.ch/html/'
+let g:netrw_dirhist_4='ftp://web32@sr47.firestorm.ch/html/Joomla/'
+let g:netrw_dirhist_5='/Users/ricoh'
+let g:netrw_dirhist_6='/Users/ricoh/Desktop/virtualenv-1.6.4/virtualenv.egg-info'
+let g:netrw_dirhist_7='/Users/ricoh/ETH/RW/PT2/Ex/exercise13/PMC-ProgTech2/modular_accum'
+let g:netrw_dirhist_8='/Users/ricoh/ETH/RW/HPC/Ex/Ex4/src/ssa.dSYM'
+let g:netrw_dirhist_9='/usr/local'
