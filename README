@@ -1,0 +1,3 @@
+This is my VIM setup.
+
+I mainly use VIM for C++ and Python development as well as writing LaTeX documents. The main focus of my setup is on IDE functionality (Projects, CTags, CScope, Eclim) plus some extras (latex-suite, xml support, surround, whatever I find useful).
