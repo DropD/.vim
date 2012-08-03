@@ -3,70 +3,80 @@
 " Author: Kohpoll (http://www.cnblogs.com/kohpoll/)
 " Inspired by the syntax files of scss and css.
 " Licensed under MIT.
-" Last Modified: 2012-03-12
+" Last Modified: 2012-08-03
 
-if exists("b:current_syntax")
+if exists("b:current_syntax") && b:current_syntax == "less"
   finish
 endif
 
+" use the css syntax and then enhance it.>.<
 runtime! syntax/css.vim
 
 syn case ignore
 
-syn region lessDefinition matchgroup=cssBraces start="{" end="}" contains=css.*Attr,css.*Prop,cssComment,cssValue.*,cssColor,cssUrl,cssImportant,cssError,cssStringQ,cssStringQQ,cssFunction,cssUnicodeEscape,lessVariable,lessFunction,lessMixinValue,lessNamespaceValue,lessAmpersand,lessDefinition,lessNestedSelector
+" css props and attrs
+syn cluster lessCssProperties contains=css.*Prop
+syn cluster lessCssAttributes contains=css.*Attr,cssValue.*,cssColor,cssURL,cssImportant,cssErr,cssStringQ,cssStringQQ,lessComment
 
-"syn region lessInterpolation start="@{" end="}" contains=@Spell
-syn match lessAmpersand "&" nextgroup=cssPseudoClass
+syn region lessDefinition matchgroup=cssBraces start='{' end='}' contains=TOP
 
-syn match lessVariable "@[[:alnum:]_-]\+" nextgroup=lessVariableAssignment
-syn match lessVariableAssignment ":" contained nextgroup=lessVariableValue
-syn match lessVariableValue ".*;"me=e-1 contained contains=lessVariable,lessOperator
+" less props (contain in less definition)
+" (?<=[{};]\s*|^\s*)([\w-])+\s*:
+syn match lessProperty "\%([{};]\s*\|^\s*\)\@<=\%([[:alnum:]-]\)\+\s*:" contains=@lessCssProperties skipwhite nextgroup=lessAttribute contained containedin=lessDefinition
 
-"syn match lessMixin "^\.\{1}" nextgroup=lessMixinName
-"syn match lessMixinName "[[:alnum:]_-]\+" contained nextgroup=lessMixinArgument
-"syn match lessMixinArgument "\s*(\=.\{-})\=" contained nextgroup=lessDefinition
-syn match lessMixinValue "\s*\.\{1}[[:alnum:]_-]\+" contained
+" less attrs (contains all the css attr, less variable, less functinos, less string interpolation)
+" ([^{};])* 
+syn match lessAttribute "\%([^{};]\)*" contained contains=@lessCssAttributes,lessVariable,lessFunction,lessInterpolation
 
-"syn match lessNamespace "#[[:alnum:]_-]\+" nextgroup=lessNamespaceName
-"syn match lessNamespaceName "[[:alunum]_-]\+" contained nextgroup=lessNamespaceReference
-"syn match lessNamespaceReference "\s*>\s*" contained
-syn match lessNamespaceValue "\s*#[[:alnum:]_-]\+\s*>"me=e-1 contained
+" variable:    @variable-name: variable-value
+syn match lessVariable "@\{1,2}[[:alnum:]_-]\+"
+" (?<=@{1,2}[\w_-]+\s*):
+syn match lessVariableAssignment "\%(@\{1,2}[[:alnum:]_-]\+\s*\)\@<=:" nextgroup=lessAttribute skipwhite
+hi def link lessVariable Identifier
 
-syn match lessImport "@import " nextgroup=cssStringQQ
-syn match lessComment "//.*$" contains=@Spell
+" mixin:    .mixin (arguments) when (condition)
+syn match lessMixin "\.[[:alnum:]_-]\+" skipwhite nextgroup=lessMixinArguments 
+syn match lessMixinArguments "([^)]*)" contained contains=lessAttribute skipwhite nextgroup=lessMixinWhen
+syn match lessMixinWhen "when" contained nextgroup=lessMixinGuard skipwhite
+syn match lessMixinGuard "([^)]*)" contained contains=lessAttribute skipwhite nextgroup=lessDefinition 
+hi def link lessMixin Statement
+" FIXME: can not highlight `when`... why? = =
+hi def link lessMixinWhen Identifier
 
-syn match lessOperator "+" contained
-syn match lessOperator "-" contained
-syn match lessOperator "/" contained
-syn match lessOperator "*" contained
+" & syntax
+syn match lessAmpersand "&"
+hi def link lessAmpersand Character
 
-syn keyword lessFunction round ceil floor percentage
-syn keyword lessFunction lighten darken saturate desaturate fadein fadeout fade spin mix hue hsl
+" include
+" me=e-1 means the last char of the match does not highlighted.(i.e the ';')
+" me: match end
+syn region lessInclude start="@import" end=";\|$"me=e-1 contains=lessComment,cssStringQ,cssStringQQ,cssURL,cssUnicodeEscape,cssMediaType
+hi def link lessInclude Include
 
-syn match lessNestedSelector "[^/]* {"me=e-1 contained contains=cssTagName,cssIdentifier,cssClassName,cssAttributeSelector,cssSelectorOp,cssSelectorOp2,lessAmpersand,lessVariable,lessInterpolation,lessNestedProperty
-syn match lessNestedProperty "[[:alnum:]]\+:"me=e-1 contained
+" string interpolation
+" @{variable-name}
+syn region lessInterpolation matchgroup=lessInterpolationDelimiter start="@{" end="}" contains=@lessCssAttributes containedin=cssStringQ,cssStringQQ
+" %("xxxxx", varialble-a, variable-b)
+syn region lessInterpolation matchgroup=lessInterpolationDelimiter start="%(" end=")" contains=@lessCssAttributes,lessVariable,cssStringQ,cssStringQQ
+hi def link lessInterpolationDelimiter Constant
 
+" functions
+syn keyword lessFunction lighten darken saturate desaturate fadein fadeout fade mix spin hsl hue saturation lightness contained 
+syn keyword lessFunction round ceil floor percentage contained
+syn keyword lessFunction iscolor isnumber isstring iskeyword isurl ispixel ispercentage isem contained
+hi def link lessFunction Function
 
-hi def link lessVariable Type
-hi def link lessVariableValue Constant
-
-hi def link lessFunction PreProc
-hi def link lessNamespaceValue PreProc
-hi def link lessMixinValue StorageClass
-
-"hi def link lessMixin PreProc
-"hi def link lessMixinName PreProc
-"hi def link lessMixinArgument Constant 
-
-hi def link lessAmpersand Delimiter
-hi def link lessImport Delimiter
-"hi def link lessInterpolation Delimiter
-
+" comments 
+" TODO: well~ taken from sass syntax file, I can not understand it now. >.<
+" pattern\@! => (?!pattern), \%(pattern\) => (?:pattern)
+syn keyword lessTodo        FIXME NOTE TODO OPTIMIZE XXX contained
+syn region  lessComment     start="^\z(\s*\)//"  end="^\%(\z1 \)\@!" contains=lessTodo,@Spell
+syn region  lessCssComment  start="^\z(\s*\)/\*" end="^\%(\z1 \)\@!" contains=lessTodo,@Spell
+hi def link lessCssComment lessComment
 hi def link lessComment Comment
-"hi def link lessOperator Operator
+hi def link lessTodo Todo
 
-let b:current_syntax = "less"
 
-" 1.0
-" - First version.May be problems here and there.
-" - FIX:I can not find ways to exactly define mixin(e.g: .mixinName) and namespace(e.g: #bundle > .util), as they are just the same as class and id of css selector.
+if !exists("b:current_syntax")
+  let b:current_syntax = "less"
+endif
