@@ -1,0 +1,45 @@
+CB V5
+
+#Sequence Alignment
+##Dynamic Programming 
+Exact solution w.r.t to optimization criteria
+
+ACCTGGA-T
+||||||| |
+ACTTGCATT
+
+Scoring matrix 
+   → similarity scores (biological information)
+   → Penalty - Levenstein
+     • ID   = 0
+     • Diff = 1
+     • Del  = 1
+     [above alignment: Levenstein penlty = 3] 
+
+→ optimize sum of scores
+→ penalize gaps
+→ exponential number of possible alignments
+
+string s1, s2
+optimal alignment of s1, s2 -> example: see paper
+
+alignment of GENUG and ENOUGH -> see paper
+
+finding score by means of dynamic programming: forward phase
+finding alignment by backtracking:             backward phase
+
+Optimal alignment may not be unique. In case of ambiguity, make a decision. 
+Don’t try to return all optimal alignments (their number increases exponentially with every ambiguity)!
+
+Time  = O(nm)
+Space = O(min(n, m))
+
+DP alignment using Dayhoff scores => maximum likelihood alignment
+
+                                    * * *
+
+The notes plug-in comes with self hosting documentation. To jump to these notes
+position your cursor on the highlighted name and press ‘gf’ in normal mode:
+
+ • Note taking syntax
+ • Note taking commands
