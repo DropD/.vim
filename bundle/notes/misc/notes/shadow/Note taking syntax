@@ -13,7 +13,6 @@ folded, it consists of a line shorter than 60 letters that starts with an
 uppercase letter and ends in a colon (the hard wrapping in this paragraph
 illustrates why the “starts with uppercase” rule is needed):
 
-
 # Inline formatting
 
 Text styles:
@@ -26,7 +25,6 @@ Hyper links and such:
  • E-mail addresses: user@host.ext
  • UNIX filenames: ~/relative/to/home, /absolute/path
  • Windows filenames: ~\relative\to\home, c:\absolute\path, \\server\share
-
 
 # Lists
 
