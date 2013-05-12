@@ -1,28 +1,25 @@
 " Vim indent file
-" Language:	Rrst
+" Language:	Rmd
 " Author:	Jakson Alves de Aquino <jalvesaq@gmail.com>
 " URL:		http://www.vim.org/scripts/script.php?script_id=2628
-" Last Change:	Thu Oct 11, 2012  10:52PM
+" Last Change:	Fri Feb 15, 2013  09:46PM
 
 
 " Only load this indent file when no other was loaded.
-if exists("b:did_rrst_indent")
+if exists("b:did_indent")
   finish
 endif
-let b:did_rrst_indent = 1
-
-
-
 runtime indent/r.vim
+let b:did_indent = 1
 
 setlocal indentkeys=0{,0},:,!^F,o,O,e
-setlocal indentexpr=GetRrstIndent()
+setlocal indentexpr=GetRmdIndent()
 
-if exists("*GetRrstIndent")
+if exists("*GetRmdIndent")
   finish
 endif
 
-function GetRstIndent()
+function GetMdIndent()
     let pline = getline(v:lnum - 1)
     let cline = getline(v:lnum)
     if prevnonblank(v:lnum - 1) < v:lnum - 1 || cline =~ '^\s*[-\+\*]\s' || cline =~ '^\s*\d\+\.\s\+'
@@ -35,14 +32,14 @@ function GetRstIndent()
     return indent(prevnonblank(v:lnum - 1))
 endfunction
 
-function GetRrstIndent()
-    if getline(".") =~ '^\.\. {r .*}$' || getline(".") =~ '^\.\. \.\.$'
+function GetRmdIndent()
+    if getline(".") =~ '^```{r .*}$' || getline(".") =~ '^```$'
 	return 0
     endif
-    if search('^\.\. {r', "bncW") > search('^\.\. \.\.$', "bncW")
+    if search('^```{r', "bncW") > search('^```$', "bncW")
 	return GetRIndent()
     else
-	return GetRstIndent()
+	return GetMdIndent()
     endif
 endfunction
 
