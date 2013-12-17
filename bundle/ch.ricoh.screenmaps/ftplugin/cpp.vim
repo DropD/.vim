@@ -16,18 +16,18 @@ cmd = ''
 scmd = ''
 sss = 'call ScreenShellSend("{0}")'
 vc  = 'command! -nargs=0 {0} {1}<CR>'
-if 'Makefile' in os.listdir(path):
-    up, cur = os.path.split(path)
-    while 'Makefile' in os.listdir(up):
-        path = up
-        up, cur = os.path.split(path)
-    cmd = 'cd {0} && make'.format(path)
-elif 'CMakeLists.txt' in os.listdir(path):
+if 'CMakeLists.txt' in os.listdir(path):
     up, cur = os.path.split(path)
     while 'CMakeLists.txt' in os.listdir(up):
         path = up
         up, cur = os.path.split(path)
     cmd = 'cd {0}/build && make'.format(path)
+elif 'Makefile' in os.listdir(path):
+    up, cur = os.path.split(path)
+    while 'Makefile' in os.listdir(up):
+        path = up
+        up, cur = os.path.split(path)
+    cmd = 'cd {0} && make'.format(path)
 else :
     cmd = 'cd {0} && clang++ -o main {1}'.format(path, name)
 
