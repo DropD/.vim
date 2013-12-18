@@ -3,27 +3,14 @@ if !has('python')
     finish
 endif
 
-python << EOF
-def all_comment(s, st, en, cstr = '#~ '):
-    for i in range(st, en):
-        if cstr not in s[i]:
-            return False
-    return True
+let s:path = fnamemodify(resolve(expand('<sfile>:p')), ':h')
+let s:comm = s:path.'/commentor.py'
 
-def toggle_comment():
-    import vim, re
-    cstr = '#~ '
+execute "pyfile ".s:comm
 
-    r = vim.current.range
-    rlen = r.end - r.start + 1
-    ac = all_comment(r, 0, rlen)
-    for i in range(0, rlen):
-        r[i] = r[i].replace(cstr, '')
-    if not ac:
-        for i in range(0, rlen):
-            r[i] = re.sub(r'^(\s+)', r'\1#~ ', r[i])
+python << EOPY
+commentor_hash = Commentor('#')
+EOPY
 
-EOF
-
-nmap <Leader>' :py toggle_comment() <CR>
-vmap <Leader>' :py toggle_comment() <CR>
+nmap <Leader>' :py commentor_hash.toggle_comment() <CR>
+vmap <Leader>' :py commentor_hash.toggle_comment() <CR>

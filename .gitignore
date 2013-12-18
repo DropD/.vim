@@ -1,5 +1,6 @@
 .netrwhist
 *.pyc
 *.swp
+*.swo
 tags
 tags-ja
