@@ -1,10 +1,8 @@
 import vim, re
 
-print 'bla'
-
 class Commentor(object):
     def __init__(self, cstr):
-        self._cstr = cstr + '~'
+        self._cstr = cstr + '~ '
 
     def all_comment(self, s, st, en):
         for i in range(st, en):
@@ -20,4 +18,4 @@ class Commentor(object):
             r[i] = r[i].replace(self._cstr, '')
         if not ac:
             for i in range(0, rlen):
-                r[i] = re.sub(r'^(\s+)', r'\1{0} '.format(self._cstr), r[i])
+                r[i] = re.sub(r'^(\s*)', r'\1{0}'.format(self._cstr), r[i])
