@@ -1,0 +1,14 @@
+This is a mirror of http://www.vim.org/scripts/script.php?script_id=3964
+
+update: 
+I just try my best to enhance this script as follows:
+1) better syntax highlight. 
+2) indent support (just use the css indent file is enough actually. >.<).
+3) auto compile file.less to file.css, and echo any errors if you have lessc installed.
+
+The script is now available on github. https://github.com/KohPoll/vim-less.git
+
+I just begin to use less(http://lesscss.org). It can help us to write css more productivity. 
+But I just can not find a less syntax file for vim, so I wrote a simple one.
+I am just new to vim, and this is the very first script for vim I've written. 
+Just take your decision.
