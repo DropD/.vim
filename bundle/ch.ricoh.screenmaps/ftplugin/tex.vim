@@ -25,8 +25,8 @@ else :
     aux = namestem+'.aux'
     pdf = namestem+'.pdf'
     bib_cmd = ''
-    if namestem+'.bib' in os.listdir(path):
-        bib_cmd = '&& bibtex {0}'.format(aux)
+    if any(['.bib' in fname for fname in os.listdir(path)]):
+        bib_cmd = '&& bibtex {0}'.format(namestem)
     cmd = 'cd {0} && pdflatex {1} {2} && pdflatex {1} && pdflatex -synctex=1 {1} && open {3}'
     cmd = cmd.format(path, tex, bib_cmd, pdf)
 

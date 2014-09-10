@@ -25,7 +25,8 @@ def paste_to_ipy(code):
     for line in [i for i in code.split('\n') if i]:
         #if line.strip()[0] == "'" and "\\n" in line:
         #    line = "\'\'"+line+"\'\'"
-        line = re.sub(r"('.*\\n.*')", r"\'\'\1\'\'", line)
+        line = re.sub(r"('.*\\n.*')", r"\'\'\1\'\'", line) # escape docstrings
+        line = re.sub(r"'", r"\'", line) # escape literal single quotes and apostrophes
         vim.command(sss.format(line+'\n'))
     vim.command(sss.format('\n--\n'))
 
