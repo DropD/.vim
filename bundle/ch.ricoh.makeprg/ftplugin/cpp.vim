@@ -32,8 +32,6 @@ elif 'Makefile' in os.listdir(path):
     cmd = 'make'
     mkp = 'make -C {}'.format(path)
 else :
-    #cmd = 'make {}'.format(os.path.splitext(cb.name)[0])
-    #mkp = cmd
     cmd = 'clang++ -o {} {}'.format(os.path.splitext(name)[0], name)
     mkp = 'clang++ -o {} {}'.format(os.path.splitext(cb.name)[0], cb.name)
 
@@ -58,21 +56,7 @@ endfunction
 
 call Build()
 
-"nmap <Leader>m :Build<CR>
+nmap <Leader>m :Build<CR>
 nmap <Leader>cm :ScreenShell<CR> :ScreenBuild<CR>
 nmap <Leader>cM :ScreenShell!<CR> :ScreenBuild<CR>
-nmap <Leader>cr :make<CR> :ScreenShell<CR> :call ScreenShellSend(expand("%:p:r"))<CR>
-nmap <Leader>cR :make<CR> :ScreenShell!<CR> :call ScreenShellSend(expand("%:p:r"))<CR>
 nmap <Leader>ce :ScreenExitTermios<CR>
-
-" Old Version.
-"
-"function! Build()
-"    if filereadable("%:p:h/Makefile")
-"        :call ScreenShellSend("cd <C-r>=expand('%:p:h')<CR> && make")<CR>
-"    elseif filereadable("%:p:h/../CMakeLists.txt")
-"        :call ScreenShellSend("cd <C-r>=expand('%:p:h/../build')<CR> && make")<CR>
-"    else 
-"        :call ScreenShellSend("cd <C-r>=expand('%:p:h')<CR> && clang++ -o main <C-r>=expand('%')<CR>")<CR>
-"    endif
-"endfunction
