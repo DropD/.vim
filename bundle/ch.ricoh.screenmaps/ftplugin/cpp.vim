@@ -59,7 +59,19 @@
 "call Build()
 
 "nmap <Leader>m :Build<CR>
-compiler g++
+
+" only get buildsystem if not found already
+if !exists('b:ricohBuildSys')
+    call getcc#Getbuildsys()
+endif
+" set compiler accordingly
+if b:ricohBuildSys != "None"
+    execute "compiler! " . b:ricohBuildSys
+    echo "Set compiler to " . b:ricohBuildSys
+else
+    compiler g++
+endif
+
 nmap <Leader>cm :ScreenShell<CR> :ScreenBuild<CR>
 nmap <Leader>cM :ScreenShell!<CR> :ScreenBuild<CR>
 nmap <Leader>cr :make!<CR> :ScreenShell<CR> :ScreenRun<CR>
