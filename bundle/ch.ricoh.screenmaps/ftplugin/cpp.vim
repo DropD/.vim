@@ -62,8 +62,8 @@
 compiler g++
 nmap <Leader>cm :ScreenShell<CR> :ScreenBuild<CR>
 nmap <Leader>cM :ScreenShell!<CR> :ScreenBuild<CR>
-nmap <Leader>cr :make<CR> :ScreenShell<CR> :call ScreenShellSend(expand("%:p:r"))<CR>
-nmap <Leader>cR :make<CR> :ScreenShell!<CR> :call ScreenShellSend(expand("%:p:r"))<CR>
+nmap <Leader>cr :make!<CR> :ScreenShell<CR> :ScreenRun<CR>
+nmap <Leader>cR :make!<CR> :ScreenShell!<CR> :ScreenRun<CR>
 nmap <Leader>ce :ScreenExitTermios<CR>
 
 " Old Version.
