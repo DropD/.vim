@@ -21,7 +21,7 @@ endtry
 
 let s:statusReports = {}
 "
-function g:sfe_getStatus()
+function g:Sfe_getStatus()
   return sfe#getStatusReport(sfe#getTargetDir())
 endfunction
 
