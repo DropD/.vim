@@ -661,6 +661,23 @@ function! s:MacGuiCmd(cmd, term) " {{{
     return 'silent !osascript -e "tell application \"' . a:term .
       \ '\"" -e "do script \"' . a:cmd . '\"" -e "end tell"'
   endif
+  if a:term == 'iTerm.app'
+      let session = 'ScreenShell'
+      let commands = [ '-e "tell application \"' . a:term . '\""',
+        \ '-e "repeat with _terminal in terminals"',
+        \ '-e "repeat with _session in (every session of _terminal whose name contains \"' . session . '\")"',
+        \ '-e "tell the _session"',
+        \ '-e "set AppleScript''s text item delimiters to \" \""',
+        \ '-e "write text (argv as text)"',
+        \ '-e "set the name to \"' . session . '\""',
+        \ '-e "end tell"',
+        \ '-e "end repeat"',
+        \ '-e "end repeat"',
+        \ '-e "end tell"',
+        \ '-e "end run"' ]
+          
+      return 'silent !osascript ' . join(commands, ' ') . ' ' . a:cmd
+  endif
 
   let cmd = substitute(a:cmd, '"', "'", 'g')
   return 'silent !osascript -e "do shell script \"' . cmd . '\""'
