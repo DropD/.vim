@@ -53,11 +53,11 @@ vim.command('let b:ricohBuildLeaf="{}"'.format(leaf))
 vim.command('let b:ricohBuildRoot="{}"'.format(root))
 vim.command('let b:ricohBuildSys="{}"'.format(bsys))
 vim.command('let b:ricohBuildFiles={}'.format(bflist))
-vim.command('let s:output="[{}, {}]"'.format(root, bsys))
+# vim.command('let s:output="[{}, {}]"'.format(root, bsys))
 
 #end python code
 EOF
 
-return s:output
+"~ return s:output
 
 endfunction

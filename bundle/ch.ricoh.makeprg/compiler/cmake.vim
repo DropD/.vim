@@ -8,9 +8,17 @@ if exists("current_compiler")
 endif
 let current_compiler = "cmake"
 
+let b:builddir = b:ricohBuildRoot . "/build"
+if !isdirectory(b:builddir)
+    call mkdir(b:builddir)
+endif
+if len(globpath(b:builddir, 'Makefile')) == 0
+    execute "!cd " . b:builddir . " && cmake .."
+endif
+
 " default
-let &l:makeprg = "make -C " . b:ricohBuildRoot . "/build"
-let b:makecall = "make -C ". b:ricohBuildRoot . "/build"
+let &l:makeprg = "cd " . b:builddir . " && make"
+let b:makecall = "cd ". b:builddir . " && make && cd -"
 
 " search leaf buildfile
 "let s:lbf = b:ricohBuildLeaf . '/CMakeLists.txt'
@@ -31,4 +39,9 @@ for buildf in b:ricohBuildFiles
         let b:executable = executable
     endif
 endfor
-let b:runcall  = b:ricohBuildRoot . '/build/' . b:subdirs . b:executable
+
+if exists("b:executable")
+    let b:runcall  = b:ricohBuildRoot . '/build/' . b:subdirs . b:executable
+else 
+    let b:runcall = 'echo "no executable found in CMakeLists.txt!"'
+endif
