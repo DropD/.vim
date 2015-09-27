@@ -9,7 +9,7 @@ let s:comm = s:path.'/commentor.py'
 execute "pyfile ".s:comm
 
 python << EOPY
-if not commentor_hash:
+if commentor_hash not in vars():
     commentor_hash = Commentor('#')
 EOPY
 

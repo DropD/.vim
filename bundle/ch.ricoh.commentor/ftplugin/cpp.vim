@@ -9,7 +9,8 @@ let s:comm = s:path.'/commentor.py'
 execute "pyfile ".s:comm
 
 python << EOPY
-commentor_cpp = Commentor('//')
+if not commentor_cpp:
+    commentor_cpp = Commentor('//')
 EOPY
 
 nmap <Leader>' :py commentor_cpp.toggle_comment() <CR>
