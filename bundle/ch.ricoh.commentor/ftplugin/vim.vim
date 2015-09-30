@@ -9,7 +9,7 @@ let s:comm = s:path.'/commentor.py'
 execute "pyfile ".s:comm
 
 python << EOPY
-if not commentor_vim:
+if commentor_vim not in vars():
     commentor_vim = Commentor('"')
 EOPY
 

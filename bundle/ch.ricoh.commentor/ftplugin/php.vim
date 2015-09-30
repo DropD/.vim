@@ -9,7 +9,7 @@ let s:comm = s:path.'/commentor.py'
 execute "pyfile ".s:comm
 
 python << EOPY
-if not commentor_cpp:
+if commentor_cpp not in vars():
     commentor_cpp = Commentor('//')
 EOPY
 
