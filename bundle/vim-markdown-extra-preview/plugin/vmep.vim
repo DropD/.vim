@@ -133,12 +133,13 @@ def display(template, file_ext, context):
     f.write(template % context)  
     f.close()
     refresh = bool(vim.eval('a:refresh'))
+    url = "file://{}".format(file)
     if not refresh:
         if reader == '':
             # if VMEPhtmlreader is not set, use the default browser
-            webbrowser.open(file)
+            webbrowser.open(url)
         else:
-            webbrowser.get("{0} %s".format(reader)).open(file)
+            webbrowser.get("{0} %s".format(reader)).open(url)
 
 markdown = load_markdown()
 template, file_ext = load_template()

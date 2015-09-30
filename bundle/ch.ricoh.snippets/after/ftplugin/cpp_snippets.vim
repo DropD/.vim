@@ -12,6 +12,10 @@
 :Snippet main int main(int argc, char const *argv[])<CR>{<CR><{}><CR><CR>}
 
 function! Headername()
-    return substitute(substitute(expand("%"), '\.', '_', 'g'), '.', '\u&', 'g')
+    if b:ricohBuildLeaf && (b:ricohBuildLeaf != expand("%:p:h:t")) && (expand("%:p:h:t") != "include")
+        return substitute(expand("%:p:h:t") . "/". expand("%:t:r") . "_" . expand("%:e"), '.', '\u&', 'g')
+    else
+        return substitute(substitute(expand("%:t"), '\.', '_', 'g'), '.', '\u&', 'g')
+    endif
 endfunction
 :Snippet hg #ifndef ``Headername()``<CR>#define ``Headername()``<CR><CR><{}><CR><CR>#endif
