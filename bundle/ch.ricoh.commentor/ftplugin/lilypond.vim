@@ -9,7 +9,8 @@ let s:comm = s:path.'/commentor.py'
 execute "pyfile ".s:comm
 
 python << EOPY
-commentor_tex = Commentor('%')
+if not commentor_tex:
+    commentor_tex = Commentor('%')
 EOPY
 
 nmap <Leader>' :py commentor_tex.toggle_comment() <CR>

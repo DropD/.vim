@@ -9,7 +9,8 @@ let s:comm = s:path.'/commentor.py'
 execute "pyfile ".s:comm
 
 python << EOPY
-commentor_vim = Commentor('"')
+if not commentor_vim:
+    commentor_vim = Commentor('"')
 EOPY
 
 nmap <Leader>' :py commentor_vim.toggle_comment() <CR>

@@ -9,7 +9,8 @@ let s:comm = s:path.'/commentor.py'
 execute "pyfile ".s:comm
 
 python << EOPY
-commentor_hash = Commentor('#')
+if not commentor_hash:
+    commentor_hash = Commentor('#')
 EOPY
 
 nmap <Leader>' :py commentor_hash.toggle_comment() <CR>
